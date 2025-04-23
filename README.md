@@ -1,13 +1,25 @@
-# Sample Hardhat Project
+# CoordiChain
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+CoordiChain is a decentralized task coordination platform built for DAOs. It uses Ethereum smart contracts to handle task lifecycle logic (create, claim, complete, approve), while IPFS is used to store task metadata and deliverables off-chain.
 
-Try running some of the following tasks:
+##  Week 1 Progress
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.js
-```
+-  Smart contract created using Solidity and Hardhat
+-  Defined full task lifecycle (Open → Claimed → Completed → Approved)
+-  Access control enforced via `msg.sender` checks
+-  Event emitters added for frontend tracking
+-  Unit tests written using Mocha & Chai (all passing)
+-  Local deployment script added and verified
+
+##  Tech Stack
+
+- **Smart Contracts**: Solidity
+- **Development**: Hardhat, Ethers.js
+- **Testing**: Mocha + Chai
+- **Storage**: IPFS (coming in Week 2)
+
+##  How to Use
+
+1. **Install dependencies**
+```bash
+npm install
