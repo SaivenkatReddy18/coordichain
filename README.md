@@ -111,6 +111,32 @@ You can view the task metadata here:
 https://gateway.pinata.cloud/ipfs/QmcxHbafZVXEJRLegJEa3bg8MjBGUxd1d3UeKgTQmfiJiA
 
 ---
+## Week 3 Progress
+
+- Set up frontend React app using Vite
+- Connected MetaMask wallet using ethers.js
+- Retrieved first task's CID from the smart contract
+- Fetched metadata JSON from IPFS using axios
+- Displayed task title, description, status, creator on the UI
+- Added buttons to interact with smart contract:
+  - Claim Task
+  - Complete Task
+  - Approve Task
+- Created filters to view tasks by status (Open, Claimed, Completed, Approved)
+- Professional UI/UX styling with buttons and task cards
+- Full smart contract interaction via frontend
+- Local frontend and blockchain working seamlessly together
+
+---
+### Screenshots:
+
+#### 1. Connect Wallet Screen
+![Connect Wallet](./screenshots/dashboard_screenshot.png)
+
+#### 2. Task Card Display with Interaction
+![Task Card Display](./screenshots/task_card_display.png)
+
+---
 
 ##  Authors
 
