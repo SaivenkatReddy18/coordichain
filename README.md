@@ -1,34 +1,102 @@
 
 # CoordiChain
 
-CoordiChain is a decentralized task coordination platform built for DAOs. It uses Ethereum smart contracts to manage task lifecycles in a trustless, transparent way. All task-related data (description, deliverables, status) is either on-chain or referenced via IPFS for scalability and immutability.
+CoordiChain is a decentralized task coordination platform built for DAOs. It empowers decentralized teams to assign, claim, complete, and approve tasks using Ethereum smart contracts and IPFS.
 
-## Project Goals
+---
 
-- Enable decentralized teams or DAOs to assign, claim, complete, and approve tasks
-- Use Ethereum smart contracts to securely track task states and ownership
-- Leverage IPFS to store task metadata and deliverables off-chain
+##  Motivation
 
-## Week 1 Progress
+Most to-do lists are centralized, private, and temporary. CoordiChain was designed to demonstrate how **decentralized task workflows** can be enabled for **DAOs**, ensuring transparency, immutability, and accountability.
 
-- Created CoordiChain smart contract (CoordiChain.sol)
-- Implemented task lifecycle: createTask, claimTask, completeTask, approveTask
-- Enforced access control (only creators and assignees can perform specific actions)
-- Added events for task tracking: TaskCreated, TaskClaimed, TaskCompleted, TaskApproved
-- Wrote test cases using Mocha and Chai (test/CoordiChain.js)
-- Verified deployment via scripts/deploy.js using Hardhat
-- Resolved all local and remote GitHub conflicts and committed clean history
+---
 
-## Week 2 Progress
+##  Tech Stack
 
-- Integrated Pinata to upload task metadata to IPFS
-- Stored returned CID in the smart contract using createTask
-- Verified storage and retrieval by calling tasks(0) in Hardhat console
-- IPFS CID used: QmcxHbafZVXEJRLegJEa3bg8MjBGUxd1d3UeKgTQmfiJiA
-- Used dotenv to manage API keys securely
+- **Smart Contracts:** Solidity
+- **Blockchain Dev Framework:** Hardhat
+- **Storage:** IPFS via Pinata
+- **Testing:** Mocha, Chai
+- **Language:** JavaScript (Node.js)
+- **Network:** Hardhat local network
 
-Example retrieved task data from smart contract:
+---
 
+##  Project Structure
+
+```
+coordichain/
+├── contracts/
+│   └── CoordiChain.sol
+├── scripts/
+│   └── deploy.js
+│   └── uploadTaskPinata.js
+├── test/
+│   └── CoordiChain.js
+├── .env
+├── .gitignore
+├── hardhat.config.js
+├── package.json
+├── README.md
+```
+
+---
+
+##  How to Run This Project
+
+1. **Clone the Repo**
+
+```bash
+git clone https://github.com/SaivenkatReddy18/coordichain.git
+cd coordichain
+```
+
+2. **Install Dependencies**
+
+```bash
+npm install
+```
+
+3. **Compile the Contract**
+
+```bash
+npx hardhat compile
+```
+
+4. **Run Tests**
+
+```bash
+npx hardhat test
+```
+
+5. **Deploy to Localhost**
+
+```bash
+npx hardhat node
+npx hardhat run scripts/deploy.js --network localhost
+```
+
+---
+
+##  Week 1 Progress
+
+- Designed and implemented CoordiChain smart contract
+- Task lifecycle: `createTask`, `claimTask`, `completeTask`, `approveTask`
+- Access control (creator, assignee restrictions)
+- Event emitters for tracking task status
+- Unit tests written and passing (Mocha + Chai)
+- Local deployment tested via Hardhat
+
+---
+
+##  Week 2 Progress
+
+- Integrated Pinata SDK to upload task metadata to IPFS
+- CID retrieved and stored on-chain via `createTask(cid)`
+- Used dotenv to secure API keys
+- Verified on-chain task retrieval using `tasks(0)`
+
+```js
 [
   0n,
   '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
@@ -37,57 +105,20 @@ Example retrieved task data from smart contract:
   'QmcxHbafZVXEJRLegJEa3bg8MjBGUxd1d3UeKgTQmfiJiA',
   ''
 ]
+```
 
-## Tech Stack
+You can view the task metadata here:  
+https://gateway.pinata.cloud/ipfs/QmcxHbafZVXEJRLegJEa3bg8MjBGUxd1d3UeKgTQmfiJiA
 
-- Smart Contracts: Solidity
-- Framework: Hardhat
-- Testing: Mocha and Chai
-- Deployment: Hardhat (local, Sepolia-ready)
-- Storage: IPFS via Pinata
-- Frontend integration coming in Week 3
+---
 
-## How to Use
-
-1. Clone the Repo
-
-git clone https://github.com/SaivenkatReddy18/coordichain.git
-cd coordichain
-
-2. Install Dependencies
-
-npm install
-
-3. Compile Contract
-
-npx hardhat compile
-
-4. Run Tests
-
-npx hardhat test
-
-5. Deploy to Local Network
-
-npx hardhat run scripts/deploy.js
-
-## Project Structure
-
-coordichain/
-├── contracts/
-│   └── CoordiChain.sol
-├── scripts/
-│   └── deploy.js
-├── test/
-│   └── CoordiChain.js
-├── hardhat.config.js
-├── package.json
-├── README.md
-
-## Authors
+##  Authors
 
 - Seri Sai Venkat Reddy – SAI.VENKAT.REDDY.SERI-1@ou.edu
 - Vijay Chirram – VIJAY.CHIRRAM-1@ou.edu
 
-## License
+---
 
-MIT License. Feel free to fork and build upon for DAO tools and decentralized coordination platforms.
+##  License
+
+This project is licensed under the MIT License. You are free to fork, remix, and build on CoordiChain.
