@@ -131,10 +131,10 @@ https://gateway.pinata.cloud/ipfs/QmcxHbafZVXEJRLegJEa3bg8MjBGUxd1d3UeKgTQmfiJiA
 ### Screenshots:
 
 #### 1. Connect Wallet Screen
-![Connect Wallet](./dashboard_screenshot.png)
+![Connect Wallet](./screenshots/dashboard_screenshot.png)
 
 #### 2. Task Card Display with Interaction
-![Task Card Display](./task_card_display.png)
+![Task Card Display](./screenshots/task_card_display.png)
 
 ---
 
