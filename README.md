@@ -1,4 +1,4 @@
-# 🌐 CoordiChain - Week 4 Progress Report
+#  CoordiChain - Week 4 Progress Report
 
 CoordiChain is a blockchain-based platform for collaborative task management in decentralized organizations (DAOs). It enables secure creation of task boards, member role assignments, and transparent task lifecycle tracking using Ethereum smart contracts and IPFS for metadata storage.
 
@@ -76,6 +76,49 @@ npx hardhat node
 ```
 
 ---
+##  MetaMask Setup for Local Development
+
+To interact with the smart contract via your frontend and Hardhat local blockchain, follow these steps to connect MetaMask properly:
+
+---
+
+###  Add Localhost Network to MetaMask
+
+1. Open **MetaMask**
+2. Click on the  **"Networks" dropdown** at the top
+3. Select  **"Add Network"**
+4. Fill in the following details:
+
+```
+Network Name: Localhost 8545
+New RPC URL: http://127.0.0.1:8545
+Chain ID: 31337
+Currency Symbol: ETH
+```
+
+5. Click **Save** to add the network.
+
+---
+
+###  Import Hardhat Test Accounts (Optional)
+
+To simulate multiple user roles (e.g., Owner, Contributor, Reviewer):
+
+- Run `npx hardhat node`
+- Copy any private key shown in the terminal
+- In MetaMask, go to **Account → Import Account**
+- Paste the private key
+
+>  This allows you to interact as different blockchain users in the task workflow.
+
+---
+
+###  Important Notes
+
+- Make sure MetaMask is **always connected** to the correct account (e.g., Owner for board creation).
+- Stay connected to the `Localhost 8545` network (`Chain ID 31337`).
+- Refresh the browser after switching accounts to reflect the latest UI state.
+
 
 ##  Setup Instructions
 
