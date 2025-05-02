@@ -1,47 +1,46 @@
+# 🌐 CoordiChain - Week 4 Progress Report
 
-# CoordiChain
+CoordiChain is a blockchain-based platform for collaborative task management in decentralized organizations (DAOs). It enables secure creation of task boards, member role assignments, and transparent task lifecycle tracking using Ethereum smart contracts and IPFS for metadata storage.
 
-CoordiChain is a decentralized task coordination platform built for DAOs. It empowers decentralized teams to assign, claim, complete, and approve tasks using Ethereum smart contracts and IPFS.
+> **Decentralized Task Coordination Platform for DAOs**  
+> Built with Solidity, IPFS, Ethers.js, React, and Hardhat
 
 ---
-
 ##  Motivation
 
 Most to-do lists are centralized, private, and temporary. CoordiChain was designed to demonstrate how **decentralized task workflows** can be enabled for **DAOs**, ensuring transparency, immutability, and accountability.
 
 ---
 
-##  Tech Stack
-
-- **Smart Contracts:** Solidity
-- **Blockchain Dev Framework:** Hardhat
-- **Storage:** IPFS via Pinata
-- **Testing:** Mocha, Chai
-- **Language:** JavaScript (Node.js)
-- **Network:** Hardhat local network
-
----
-
 ##  Project Structure
 
-```
+```bash
 coordichain/
 ├── contracts/
-│   └── CoordiChain.sol
+│   └── CoordiChain.sol          # Smart contract for task board & role logic
 ├── scripts/
-│   └── deploy.js
-│   └── uploadTaskPinata.js
+│   ├── deploy.js                # Hardhat script to deploy contract
+│   └── uploadTaskPinata.js      # Upload task metadata to IPFS (Pinata)
 ├── test/
-│   └── CoordiChain.js
+│   └── CoordiChain.js           # Test cases for smart contract
+├── coordichain-frontend/
+│   ├── src/
+│   │   ├── abi/
+│   │   │   └── CoordiChain.json # ABI after each compilation
+│   │   ├── components/
+│   │   │   └── AddMemberForm.jsx
+│   │   │   └── CreateBoard.jsx
+│   │   │   └── TaskCard.jsx
+│   │   └── App.jsx
+│   └── constants.js             # Stores deployed contract address
 ├── .env
 ├── .gitignore
 ├── hardhat.config.js
 ├── package.json
-├── README.md
+└── README.md
 ```
 
 ---
-
 ##  How to Run This Project
 
 1. **Clone the Repo**
@@ -73,68 +72,91 @@ npx hardhat test
 
 ```bash
 npx hardhat node
+
+```
+
+---
+
+##  Setup Instructions
+
+###  1. Compile & Deploy Smart Contract
+
+```bash
+npx hardhat compile
 npx hardhat run scripts/deploy.js --network localhost
 ```
 
----
+###  2. Update Frontend
 
-##  Week 1 Progress
+After deployment, copy the contract address from the terminal and update it in:
 
-- Designed and implemented CoordiChain smart contract
-- Task lifecycle: `createTask`, `claimTask`, `completeTask`, `approveTask`
-- Access control (creator, assignee restrictions)
-- Event emitters for tracking task status
-- Unit tests written and passing (Mocha + Chai)
-- Local deployment tested via Hardhat
-
----
-
-##  Week 2 Progress
-
-- Integrated Pinata SDK to upload task metadata to IPFS
-- CID retrieved and stored on-chain via `createTask(cid)`
-- Used dotenv to secure API keys
-- Verified on-chain task retrieval using `tasks(0)`
-
-```js
-[
-  0n,
-  '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
-  '0x0000000000000000000000000000000000000000',
-  0n,
-  'QmcxHbafZVXEJRLegJEa3bg8MjBGUxd1d3UeKgTQmfiJiA',
-  ''
-]
+```
+coordichain-frontend/src/constants.js
 ```
 
-You can view the task metadata here:  
-https://gateway.pinata.cloud/ipfs/QmcxHbafZVXEJRLegJEa3bg8MjBGUxd1d3UeKgTQmfiJiA
+Then copy the ABI:
+
+```bash
+cp artifacts/contracts/CoordiChain.sol/CoordiChain.json coordichain-frontend/src/abi/CoordiChain.json
+```
 
 ---
-## Week 3 Progress
 
-- Set up frontend React app using Vite
-- Connected MetaMask wallet using ethers.js
-- Retrieved first task's CID from the smart contract
-- Fetched metadata JSON from IPFS using axios
-- Displayed task title, description, status, creator on the UI
-- Added buttons to interact with smart contract:
-  - Claim Task
-  - Complete Task
-  - Approve Task
-- Created filters to view tasks by status (Open, Claimed, Completed, Approved)
-- Professional UI/UX styling with buttons and task cards
-- Full smart contract interaction via frontend
-- Local frontend and blockchain working seamlessly together
+##  Workflow Instructions
+
+###  Create Task Board
+
+- Go to the frontend interface (e.g., http://localhost:3000)
+- Connect your wallet
+- Click “Create Task Board”
+- Copy the board ID displayed
+
+###  Add Members
+
+- Input the **Board ID**, **Wallet Address**, and **Role** (Contributor / Reviewer)
+- Click “Add Member”
+
+>  Make sure the connected account is the **board owner** (deployer) before adding members.
 
 ---
-### Screenshots:
 
-#### 1. Connect Wallet Screen
-![Connect Wallet](./screenshots/dashboard_screenshot.png)
+###  Create Task (in Console)
 
-#### 2. Task Card Display with Interaction
-![Task Card Display](./screenshots/task_card_display.png)
+Switch to your Hardhat console:
+
+```bash
+npx hardhat console --network localhost
+```
+
+Then execute:
+
+```js
+const [owner] = await ethers.getSigners();
+const contract = await ethers.getContractAt("CoordiChain", "<contract-address>", owner);
+const tx = await contract.createTask(<boardId>, "<metadataCID>");
+await tx.wait();
+```
+
+> Make sure `metadataCID` is uploaded via Pinata or IPFS.
+
+---
+
+###  Interact with Tasks
+
+1. Switch to Contributor (Account 2) in MetaMask
+2. Click “Claim” on open task
+3. Click “Complete” (input deliverable CID)
+4. Switch to Creator or Reviewer (Account 1)
+5. Click “Approve”
+
+---
+
+##  Summary
+
+-  Role-based access tested: Owner, Contributor, Reviewer
+-  Tasks fully functional with IPFS integration
+-  Frontend dynamically renders based on user role
+-  Complete flow validated on local Hardhat network
 
 ---
 
@@ -144,5 +166,3 @@ https://gateway.pinata.cloud/ipfs/QmcxHbafZVXEJRLegJEa3bg8MjBGUxd1d3UeKgTQmfiJiA
 - Vijay Chirram – VIJAY.CHIRRAM-1@ou.edu
 
 ---
-
-
