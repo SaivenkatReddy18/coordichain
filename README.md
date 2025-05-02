@@ -145,6 +145,4 @@ https://gateway.pinata.cloud/ipfs/QmcxHbafZVXEJRLegJEa3bg8MjBGUxd1d3UeKgTQmfiJiA
 
 ---
 
-##  License
 
-This project is licensed under the MIT License. You are free to fork, remix, and build on CoordiChain.
