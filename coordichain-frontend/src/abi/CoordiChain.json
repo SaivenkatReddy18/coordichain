@@ -4,90 +4,88 @@
   "sourceName": "contracts/CoordiChain.sol",
   "abi": [
     {
-      "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        }
-      ],
-      "name": "TaskApproved",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "assignee",
-          "type": "address"
-        }
-      ],
-      "name": "TaskClaimed",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
           "internalType": "string",
-          "name": "cid",
+          "name": "name",
           "type": "string"
         }
       ],
-      "name": "TaskCompleted",
-      "type": "event"
+      "name": "createTaskBoard",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
-      "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
           "internalType": "uint256",
-          "name": "id",
+          "name": "boardId",
           "type": "uint256"
         },
         {
-          "indexed": false,
           "internalType": "address",
-          "name": "creator",
+          "name": "member",
           "type": "address"
+        }
+      ],
+      "name": "addMember",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "boardId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getBoardMembers",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "boardId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getBoardTasks",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "boardId",
+          "type": "uint256"
         },
         {
-          "indexed": false,
           "internalType": "string",
-          "name": "cid",
+          "name": "metadataCID",
           "type": "string"
         }
       ],
-      "name": "TaskCreated",
-      "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "taskId",
-          "type": "uint256"
-        }
-      ],
-      "name": "approveTask",
+      "name": "createTask",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -126,34 +124,21 @@
     {
       "inputs": [
         {
-          "internalType": "string",
-          "name": "metadataCID",
-          "type": "string"
-        }
-      ],
-      "name": "createTask",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "nextTaskId",
-      "outputs": [
-        {
           "internalType": "uint256",
-          "name": "",
+          "name": "taskId",
           "type": "uint256"
         }
       ],
-      "stateMutability": "view",
+      "name": "approveTask",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "",
+          "name": "taskId",
           "type": "uint256"
         }
       ],
@@ -175,7 +160,7 @@
           "type": "address"
         },
         {
-          "internalType": "enum CoordiChain.TaskStatus",
+          "internalType": "uint8",
           "name": "status",
           "type": "uint8"
         },

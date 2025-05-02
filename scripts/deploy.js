@@ -1,14 +1,21 @@
 const hre = require("hardhat");
 
 async function main() {
+  const [deployer] = await hre.ethers.getSigners();
+
   const CoordiChain = await hre.ethers.getContractFactory("CoordiChain");
   const contract = await CoordiChain.deploy();
-  await contract.waitForDeployment(); // ✅ Modern Hardhat uses this
+  await contract.waitForDeployment();
 
-  console.log("CoordiChain deployed to:", contract.target); // use `target` for address
+  console.log("✅ CoordiChain deployed to:", contract.target);
+
+  // Automatically create a default task board
+  const tx = await contract.createTaskBoard("Core DAO Team");
+  await tx.wait();
+  console.log("✅ Default task board 'Core DAO Team' created");
 }
 
 main().catch((error) => {
-  console.error(error);
+  console.error("❌ Deployment failed:", error);
   process.exitCode = 1;
 });
