@@ -1,11 +1,14 @@
 const hre = require("hardhat");
 
 async function main() {
-  const CoordiChain = await hre.ethers.getContractFactory("CoordiChain");
-  const contract = await CoordiChain.deploy();
-  await contract.waitForDeployment(); // ✅ Modern Hardhat uses this
+  const [account1, account2] = await hre.ethers.getSigners(); // Get both accounts
 
-  console.log("CoordiChain deployed to:", contract.target); // use `target` for address
+  const CoordiChain = await hre.ethers.getContractFactory("CoordiChain", account1); // deploy using Account 1
+  const contract = await CoordiChain.deploy();
+  await contract.waitForDeployment();
+
+  console.log("✅ Deployed at:", await contract.getAddress());
+  console.log("👤 Deployed by (owner):", await account1.getAddress());
 }
 
 main().catch((error) => {
