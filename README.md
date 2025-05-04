@@ -101,7 +101,7 @@ Currency Symbol: ETH
 
 ---
 
-###  Import Hardhat Test Accounts (Optional)
+###  Import Hardhat Test Accounts
 
 To simulate multiple user roles (e.g., Owner, Contributor, Reviewer):
 
