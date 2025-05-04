@@ -156,7 +156,22 @@ cp artifacts/contracts/CoordiChain.sol/CoordiChain.json coordichain-frontend/src
 
 ###  Create Task Board
 
-- Go to the frontend interface (e.g., http://localhost:3000)
+Follow these steps to create a new task board on the CoordiChain frontend:
+
+---
+
+### 🔹  Go to the Frontend Interface
+
+Navigate to your frontend project directory:
+
+```bash
+cd coordichain-frontend
+
+```
+###   Run the Frontend
+```bash
+npm run dev
+```
 - Connect your wallet
 - Click “Create Task Board”
 - Copy the board ID displayed
