@@ -21,15 +21,20 @@ coordichain/
 ├── scripts/
 │   ├── deploy.js                # Hardhat script to deploy contract
 │   └── uploadTaskPinata.js      # Upload task metadata to IPFS (Pinata)
+│   └── testPinataAuth.js
 ├── test/
 │   └── CoordiChain.js           # Test cases for smart contract
 ├── coordichain-frontend/
+│   ├── public
+│   │   ├── vite.svg
 │   ├── src/
 │   │   ├── abi/
 │   │   │   └── CoordiChain.json # ABI after each compilation
+│   │   │   └── CoordiChainABI.js
 │   │   ├── components/
 │   │   │   └── AddMemberForm.jsx
 │   │   │   └── CreateBoard.jsx
+│   │   │   └── Memberlist.jsx
 │   │   │   └── TaskCard.jsx
 │   │   └── App.jsx
 │   └── constants.js             # Stores deployed contract address
@@ -62,13 +67,9 @@ npm install
 npx hardhat compile
 ```
 
-4. **Run Tests**
 
-```bash
-npx hardhat test
-```
 
-5. **Deploy to Localhost**
+4. **Deploy to Localhost**
 
 ```bash
 npx hardhat node
@@ -144,6 +145,8 @@ cp artifacts/contracts/CoordiChain.sol/CoordiChain.json coordichain-frontend/src
 ```
 
 ---
+> **Note:** For the best visual experience, ensure you use **dark mode** in your browser settings.
+
 
 ##  Workflow Instructions
 

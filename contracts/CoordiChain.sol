@@ -35,7 +35,7 @@ contract CoordiChain {
     event TaskCompleted(uint id, string cid);
     event TaskApproved(uint id);
 
-    // ✅ Public getters for frontend access
+    //  Public getters for frontend access
     function getBoardOwner(uint boardId) external view returns (address) {
         return taskBoards[boardId].owner;
     }
@@ -52,7 +52,12 @@ contract CoordiChain {
         return taskBoards[boardId].roles[user];
     }
 
-    // ✅ Task board creation
+    //  NEW: Return all member addresses (duplicate for clarity if needed)
+    function getMembers(uint boardId) public view returns (address[] memory) {
+        return taskBoards[boardId].members;
+    }
+
+    //  Task board creation
     function createTaskBoard() external returns (uint) {
         uint boardId = nextBoardId++;
         TaskBoard storage board = taskBoards[boardId];
@@ -63,7 +68,7 @@ contract CoordiChain {
         return boardId;
     }
 
-    // ✅ Add member with role
+    //  Add member with role
     function addMember(uint boardId, address member, Role role) external {
         TaskBoard storage board = taskBoards[boardId];
         require(msg.sender == board.owner, "Only owner can add members");
@@ -80,7 +85,7 @@ contract CoordiChain {
         return false;
     }
 
-    // ✅ Create a task
+    //  Create a task
     function createTask(uint boardId, string memory metadataCID) external {
         TaskBoard storage board = taskBoards[boardId];
         require(
@@ -103,7 +108,7 @@ contract CoordiChain {
         emit TaskCreated(taskId, msg.sender, metadataCID, boardId);
     }
 
-    // ✅ Claim, Complete, Approve
+    //  Claim, Complete, Approve
     function claimTask(uint taskId) external {
         Task storage task = tasks[taskId];
         TaskBoard storage board = taskBoards[task.boardId];

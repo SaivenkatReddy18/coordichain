@@ -5,13 +5,14 @@ import axios from "axios";
 import TaskCard from "./components/TaskCard";
 import { contractAddress } from "./constants";
 import AddMemberForm from "./components/AddMemberForm";
-import CreateBoard from "./components/CreateBoard"; // ✅
+import CreateBoard from "./components/CreateBoard";
 
 function App() {
   const [account, setAccount] = useState(null);
   const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState("All");
-  const [currentBoardId, setCurrentBoardId] = useState(null); // ✅ new
+  const [currentBoardId, setCurrentBoardId] = useState(null);
+  const [members, setMembers] = useState([]);
 
   const statusLabels = ["Open", "Claimed", "Completed", "Approved"];
 
@@ -34,7 +35,6 @@ function App() {
     try {
       const signer = await provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi.abi, signer);
-
       const loadedTasks = [];
       const nextId = await contract.nextTaskId();
 
@@ -42,7 +42,9 @@ function App() {
         const task = await contract.tasks(i);
         if (task.metadataCID && task.metadataCID !== "") {
           try {
-            const metadataResponse = await axios.get(`https://gateway.pinata.cloud/ipfs/${task.metadataCID}`);
+            const metadataResponse = await axios.get(
+              `https://gateway.pinata.cloud/ipfs/${task.metadataCID}`
+            );
             const metadata = metadataResponse.data;
 
             loadedTasks.push({
@@ -66,12 +68,48 @@ function App() {
     }
   }
 
+  async function fetchMembers(boardId) {
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = new ethers.Contract(contractAddress, abi.abi, signer);
+      const memberAddresses = await contract.getBoardMembers(boardId);
+
+      const memberData = await Promise.all(
+        memberAddresses.map(async (addr) => {
+          const role = await contract.getBoardRole(boardId, addr);
+          let roleLabel = "Unknown";
+          if (role === 1n) roleLabel = "Creator";
+          else if (role === 2n) roleLabel = "Contributor";
+          else if (role === 3n) roleLabel = "Reviewer";
+          return { address: addr, role: roleLabel };
+        })
+      );
+
+      setMembers(memberData);
+    } catch (err) {
+      console.error("Failed to fetch members with roles:", err);
+    }
+  }
+
   useEffect(() => {
     if (window.ethereum && account) {
       const provider = new ethers.BrowserProvider(window.ethereum);
       fetchTasks(provider);
     }
   }, [account]);
+
+  useEffect(() => {
+    if (currentBoardId !== null) {
+      fetchMembers(currentBoardId);
+    }
+  }, [currentBoardId]);
+
+  const handleMemberAdded = () => {
+    if (currentBoardId !== null) {
+      fetchMembers(currentBoardId); // Refresh list after member is added
+    }
+  };
 
   async function claimTask(id) {
     try {
@@ -115,20 +153,22 @@ function App() {
     }
   }
 
-  const filteredTasks = tasks.filter(task => {
+  const filteredTasks = tasks.filter((task) => {
     if (filter === "All") return true;
     return task.statusText === filter;
   });
 
   return (
-    <div style={{ padding: '2rem', color: '#fff' }}>
+    <div style={{ padding: "2rem", color: "#fff" }}>
       <h1>CoordiChain Dashboard</h1>
 
       {!account ? (
         <button onClick={connectWallet}>Connect Wallet</button>
       ) : (
         <>
-          <p><strong>Connected Wallet:</strong> {account}</p>
+          <p>
+            <strong>Connected Wallet:</strong> {account}
+          </p>
 
           <div style={{ marginTop: "1rem", marginBottom: "2rem" }}>
             {["All", "Open", "Claimed", "Completed", "Approved"].map((status) => (
@@ -164,16 +204,29 @@ function App() {
             <p>No tasks to display.</p>
           )}
 
-          {/* ✅ Create Board */}
           <div style={{ marginTop: "2rem", padding: "1rem", backgroundColor: "#1e1e1e", borderRadius: "8px" }}>
             <CreateBoard onBoardCreated={setCurrentBoardId} />
           </div>
 
-          {/* ✅ Add Member Form */}
           <div style={{ marginTop: "2rem", padding: "1rem", backgroundColor: "#222", borderRadius: "8px" }}>
             <h2 style={{ marginBottom: "1rem" }}>👥 Add Member to Board</h2>
-            <AddMemberForm defaultBoardId={currentBoardId} />
+            <AddMemberForm defaultBoardId={currentBoardId} onMemberAdded={handleMemberAdded} />
           </div>
+
+          {members.length > 0 && (
+            <div style={{ marginTop: "2rem", padding: "1.5rem", backgroundColor: "#111", border: "1px solid #444", borderRadius: "8px" }}>
+              <h3 style={{ color: "#fff", marginBottom: "0.5rem" }}>
+                🧑‍🤝‍🧑 Members in Board ID {currentBoardId}
+              </h3>
+              <ul style={{ listStyle: "none", paddingLeft: "0" }}>
+                {members.map((m, idx) => (
+                  <li key={idx} style={{ fontFamily: "monospace", color: "#ccc", marginBottom: "4px" }}>
+                    {m.address} — <strong>{m.role}</strong>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </>
       )}
     </div>

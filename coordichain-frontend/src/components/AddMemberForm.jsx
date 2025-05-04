@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import contractABI from "../abi/CoordiChain.json";
 import { contractAddress } from "../constants";
 
-function AddMemberForm({ defaultBoardId = 0 }) {
+function AddMemberForm({ defaultBoardId = 0, onMemberAdded = () => {} }) {
   const [boardId, setBoardId] = useState(defaultBoardId);
   const [walletAddress, setWalletAddress] = useState("");
   const [role, setRole] = useState("2");
+
+  // Update board ID from props if it changes in parent
+  useEffect(() => {
+    setBoardId(defaultBoardId);
+  }, [defaultBoardId]);
 
   const addMember = async () => {
     try {
@@ -26,12 +31,13 @@ function AddMemberForm({ defaultBoardId = 0 }) {
       const signer = await provider.getSigner();
       const contract = new ethers.Contract(contractAddress, contractABI.abi, signer);
 
-      const checksummedAddress = ethers.getAddress(rawAddress); // auto-checksum
+      const checksummedAddress = ethers.getAddress(rawAddress);
       const tx = await contract.addMember(Number(boardId), checksummedAddress, Number(role));
       await tx.wait();
 
       alert("✅ Member added successfully!");
-      setWalletAddress(""); // Clear input after success
+      setWalletAddress(""); // Clear input
+      onMemberAdded();       // 🔁 Notify parent to refresh member list
     } catch (err) {
       console.error("❌ Error adding member:", err);
       alert("Failed to add member. Check console.");
@@ -52,7 +58,7 @@ function AddMemberForm({ defaultBoardId = 0 }) {
         placeholder="Board ID"
         value={boardId}
         onChange={(e) => setBoardId(Number(e.target.value))}
-        className="w-full p-2 border rounded"
+        className="w-full p-2 border rounded text-black"
       />
 
       <input
@@ -60,13 +66,13 @@ function AddMemberForm({ defaultBoardId = 0 }) {
         placeholder="Wallet Address"
         value={walletAddress}
         onChange={(e) => setWalletAddress(e.target.value)}
-        className="w-full p-2 border rounded"
+        className="w-full p-2 border rounded text-black"
       />
 
       <select
         value={role}
         onChange={(e) => setRole(e.target.value)}
-        className="w-full p-2 border rounded"
+        className="w-full p-2 border rounded text-black"
       >
         <option value="2">Contributor</option>
         <option value="3">Reviewer</option>
