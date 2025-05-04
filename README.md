@@ -1,4 +1,4 @@
-#  CoordiChain - Week 4 Progress Report
+#  CoordiChain - Decentralized Task Coordination Platform for DAOs #
 
 CoordiChain is a blockchain-based platform for collaborative task management in decentralized organizations (DAOs). It enables secure creation of task boards, member role assignments, and transparent task lifecycle tracking using Ethereum smart contracts and IPFS for metadata storage.
 
@@ -11,6 +11,10 @@ CoordiChain is a blockchain-based platform for collaborative task management in 
 Most to-do lists are centralized, private, and temporary. CoordiChain was designed to demonstrate how **decentralized task workflows** can be enabled for **DAOs**, ensuring transparency, immutability, and accountability.
 
 ---
+##  Project Demo Video
+ [Watch Demo Video on Google Drive](https://drive.google.com/file/d/1lTbM9A7jjbUJ4Iatk0vm91Xx4SNQEKpR/view?usp=sharing)
+
+
 
 ##  Project Structure
 
